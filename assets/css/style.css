@@ -1,9 +1,445 @@
-body {
-    margin: 0;
-    padding: 40px;
-    font-family: Arial, sans-serif;
+:root{
+    --purple: #702963;
+    --purple-dark: #4a173f;
+    --yellow: #e3c148;
+    --muted: #7f738d;
+    --navbar-height: 80px;
 }
 
-h1 {
-    font-size: 48px;
+*{box-sizing:border-box}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color: #222;
+    background: #fff;
+}
+
+/* Navbar brand: Source Serif */
+.navbar-brand{
+    font-family: 'Source Serif 4', 'Source Serif Pro', Georgia, serif;
+    font-size: 1.25rem;
+    font-weight:700;
+    letter-spacing:0.2px;
+}
+/* navbar layout: home icon left | title center | socials right */
+.navbar{ display:flex; align-items:center; min-height:var(--navbar-height); width:100%; max-width:100%; overflow:hidden; }
+.navbar .container-fluid{ position:relative; display:flex; align-items:center; justify-content:space-between; padding:0 1rem; width:100%; max-width:100%; }
+.navbar-link-home{ color:#fff; text-decoration:none; font-size:1.2rem; display:inline-flex; align-items:center; justify-content:center; transition:color 0.2s ease; }
+.navbar-link-home:hover{ color:var(--yellow); }
+.navbar-brand-center{ position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); font-family:'Source Serif 4','Source Serif Pro',Georgia,serif; font-size:1.25rem; font-weight:700; color:#fff; letter-spacing:0.2px; white-space:nowrap; }
+@media (min-width:768px){ .navbar-brand-center{ font-size:1.6rem; } }
+.navbar-socials-right{ display:flex; align-items:center; gap:1.5rem; }
+
+/* Mobile: hide centered brand to avoid overlap with toggler */
+@media (max-width:991px){
+    .navbar-brand-center{ display:none; }
+}
+
+/* Offcanvas mobile menu styling to match navbar colors */
+.offcanvas{
+    background: linear-gradient(90deg, var(--purple), var(--purple-dark));
+    color: #fff;
+}
+.offcanvas .offcanvas-header, .offcanvas .offcanvas-body{ color:#fff; }
+.offcanvas .nav-link{ color: #fff; padding: 0.5rem 0; }
+.offcanvas .nav-link:hover{ color: var(--yellow); }
+.offcanvas .btn-close{ filter: invert(1) brightness(1.1); }
+.offcanvas .project-badge, .offcanvas .nav-social{ color:#fff; }
+
+/* Offcanvas brand (matches navbar center style) */
+.offcanvas-brand{
+    font-family: 'Source Serif 4', 'Source Serif Pro', Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* Social links in offcanvas: icon + text, no borders */
+.offcanvas-social{
+    color: #fff;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    padding: 0.45rem 0;
+    font-weight: 600;
+}
+.offcanvas-social .bi{ font-size: 1.15rem; }
+.offcanvas-social:hover{ color: var(--yellow); text-decoration: none; }
+
+/* navbar circular social buttons */
+.nav-social{ width:auto; height:auto; border-radius:0; display:inline-flex; align-items:center; justify-content:center; background:transparent; color:#fff; transition:color 0.2s ease; }
+.nav-social .bi{ font-size:1.2rem; }
+.nav-social:hover{ color:var(--yellow); text-decoration:none; }
+.nav-social:focus{ outline:2px solid rgba(255,255,255,0.3); outline-offset:2px; }
+
+.hero{
+    background-image: linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.5)), url("../images/index-banner.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: calc(105vh - 80px);
+    padding: 4.5rem 0;
+}
+
+h1, h2 { color: #fff; }
+
+main h2 { color: var(--purple); }
+html { scroll-padding-top: calc(var(--navbar-height) + 0.25rem); }
+main.container { display:flex; flex-direction:column; gap:1rem; padding-top:4.5rem; }
+.page-section { padding:1.75rem 0; }
+.page-section h2 { margin-bottom: 1rem; }
+.hero, .page-section { scroll-margin-top: calc(var(--navbar-height) + 0.25rem); }
+
+.navbar.bg-primary{ background: linear-gradient(90deg, var(--purple), var(--purple-dark)); }
+
+.card.project-card{
+    background: transparent;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    min-height: 460px;
+    overflow: hidden;
+    position: relative;
+}
+.card.project-card:hover{
+    /* reveal only: no float or extra shadow */
+    transform: none;
+    box-shadow: none;
+}
+
+/* reveal on hover */
+.card.project-card:hover .card-overlay{ opacity:0; }
+.card.project-card:hover .card-content{ opacity:1; transform:none; }
+
+ .card .card-img-top{
+     position:absolute;
+     inset:0;
+     width:100%;
+     height:100%;
+     object-fit:cover;
+     display:block;
+     border-radius:0;
+ }
+
+
+/* overlay logo visible at rest */
+.card-overlay{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:2; background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.6)); transition:opacity .25s ease, background .25s ease; }
+.overlay-logo{ max-width:22%; height:auto; filter:brightness(1.15) saturate(1.05); }
+
+/* content hidden at rest, revealed on hover */
+.card-content{ position:absolute; inset:0; z-index:3; display:flex; flex-direction:column; justify-content:flex-end; padding:1.6rem; background:linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.45)); opacity:0; transform:translateY(6px); transition:opacity .28s ease, transform .28s ease; gap:1rem; }
+.card-title{ color:#fff; font-size: 1.35rem; margin-bottom: 0.9rem; }
+.card-text{ color:rgba(255,255,255,0.9); margin-bottom: 0; line-height: 1.6; }
+.btn-outline-primary{ padding: 0.6rem 1rem; font-weight: 600; border-radius:0; transition:background 0.2s ease, color 0.2s ease, border-color 0.2s ease; color:var(--purple); border-color:var(--purple); background:#ffffff; border:1px solid rgba(0,0,0,0.06); }
+.btn-outline-primary:hover{ background:var(--purple); color:#fff; border-color:var(--purple); }
+
+.btn-light{ padding: 0.6rem 1rem; font-weight: 600; border-radius:0; transition:background 0.2s ease, color 0.2s ease, border-color 0.2s ease; color:var(--purple); background:#ffffff; border:1px solid rgba(0,0,0,0.06); }
+.btn-light:hover{ background:var(--purple); color:#fff; border-color:var(--purple); }
+
+/* Keep buttons purple while clicked/held (active state) */
+.btn:active,
+.btn:active:focus,
+.btn-outline-primary:active,
+.btn-light:active,
+.btn-outline-secondary:active {
+    background: var(--purple) !important;
+    color: #fff !important;
+    border-color: var(--purple) !important;
+    box-shadow: none !important;
+}
+
+/* Footer Resume Button */
+.btn-resume{ background:transparent; border:2px solid var(--purple); color:var(--purple); }
+.btn-resume:hover{ background:var(--purple); color:#fff; border-color:var(--purple); }
+
+footer{ background:transparent; color:var(--muted); }
+
+.site-footer{ border-top: 1px solid rgba(0,0,0,0.05); }
+.site-footer a{ color:var(--purple); }
+.site-footer a:hover{ color:var(--yellow); text-decoration:none; }
+
+.social-icon{ width:22px; height:22px; vertical-align:middle; fill:var(--purple); color:var(--purple); transition:fill .15s ease, color .15s ease; }
+.social-link{ display:inline-flex; align-items:center; gap:.5rem; }
+.social-link:hover .social-icon{ fill:var(--yellow); color:var(--yellow); }
+
+/* Tech badges */
+.tech-badge{ display:inline-block; padding:0.28rem 0.6rem; border-radius:999px; font-size:0.78rem; font-weight:700; color:transparent; text-shadow:0 0 0 var(--purple-dark); background:#ffffff; border:1px solid rgba(112,41,99,0.12); margin-right:0.5rem; }
+.tech-row{ margin-bottom:0; margin-top:0.35rem; }
+
+
+.skill-summary{ background: rgba(255,255,255,0.92); border:none; }
+.skill-card{ background: var(--purple); border:1px solid var(--purple); border-radius:0; box-shadow:0 12px 28px rgba(0,0,0,0.06); color:#fff; }
+.skill-summary-item{ display:flex; align-items:center; gap:0.75rem; padding:0.65rem 0; border-bottom:1px solid rgba(112,41,99,0.08); }
+.skill-summary-item:last-child{ border-bottom:none; }
+.skill-summary-icon{ font-size:1.1rem; color:var(--purple); min-width:1.5rem; }
+.skill-pill-row{ display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:1rem; }
+.skill-pill{ display:inline-flex; align-items:center; justify-content:center; padding:0.35rem 0.7rem; border-radius:999px; background:rgba(112,41,99,0.08); color:var(--purple); font-size:0.82rem; font-weight:600; }
+
+.project-badge{ display:inline-flex; align-items:center; justify-content:center; padding:0.35rem 0.75rem; border-radius:999px; background:var(--purple); color:#fff; font-size:0.82rem; font-weight:700; border:1px solid var(--purple); }
+.project-detail-card{ background:var(--purple); border:1px solid var(--purple); color:#fff; border-radius:0; }
+.project-detail-card strong{ color:#fff; }
+.project-detail-card div{ color:#f8f2ff; }
+
+/* skill card title icons */
+.skill-card h5{ display:flex; align-items:center; gap:0.6rem; font-weight:700; margin-bottom:0.6rem; color:#fff; }
+.skill-card h5 .bi{ font-size:1.05rem; color:#fff; }
+.skill-card p.skill-list{ color:#fff; }
+
+
+
+
+@media (min-width:768px){
+  .hero h1{ font-size:56px; }
+}
+
+/* ============================================================
+   PROJECT DETAIL PAGES (neru-meru.html, clothing-retail.html, etc.)
+   Bring the sub-pages into the same byzantine purple + gold system
+   used on the index page, hero included.
+   ============================================================ */
+
+/* Project hero: sits directly under the navbar, outside <main>, just
+   like the index page's <header class="hero">. It now fills the
+   screen the same way — background image, dark overlay, min-height
+   pinned to the viewport minus the navbar — so it reads as a true
+   full-screen opener rather than a banner strip inside the content. */
+.project-hero{
+    background-color: var(--purple);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: calc(105vh - var(--navbar-height));
+    padding: 4.5rem 0;
+    position: relative;
+    overflow: hidden;
+    scroll-margin-top: calc(var(--navbar-height) + 0.25rem);
+}
+.project-hero .text-uppercase{
+    color: var(--yellow);
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+.project-hero h1{ color:#fff; }
+.project-hero .lead{ color: rgba(255,255,255,0.88); max-width: 65ch; margin-left:auto; margin-right:auto; }
+.project-hero .project-badge{
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border-color: rgba(255,255,255,0.35);
+}
+
+@media (min-width:768px){
+  .project-hero h1{ font-size:56px; }
+}
+
+/* Section headings + divider treatment for project detail pages */
+.project-section h2{
+    color: var(--purple);
+    margin-bottom: 1.25rem;
+}
+.project-section h3{ color: var(--purple-dark); font-size: 1.15rem; }
+.project-section h5{ color: var(--purple-dark); }
+.project-section h6{ color: var(--muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.06em; }
+
+/* Numbered process list: swap Bootstrap's default blue counters for purple */
+.project-section .list-group-numbered{ counter-reset: project-step; }
+.project-section .list-group-numbered > .list-group-item{
+    counter-increment: project-step;
+}
+.project-section .list-group-numbered > .list-group-item::before{
+    content: counter(project-step) ".";
+    color: #fff;
+    background: var(--purple);
+    font-weight: 700;
+    font-size: 0.78rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    margin-right: 0.6rem;
+}
+
+.figure-img{ border-radius: 0; }
+
+/* ============================================================
+   PROJECT PAGE GALLERY CAROUSEL
+   Clean, full-width carousel with buttons positioned OUTSIDE
+   the carousel container.
+   ============================================================ */
+
+.gallery-section{
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 3rem 1.5rem 3.25rem;
+    background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+    color: #fff;
+}
+.gallery-section > h2{
+    color: #fff;
+    margin-bottom: 1.5rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.gallery-section .gallery-carousel{
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.gallery-carousel{ width: 100%; }
+
+.gallery-carousel .carousel-inner{
+    overflow: visible;
+}
+
+.gallery-slide{
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-slide-img{
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+}
+@media (max-width: 767px){
+    .gallery-slide-img{ aspect-ratio: 4 / 3; }
+}
+
+.gallery-slide-caption{
+    background: #fff;
+    border: 1px solid rgba(112,41,99,0.2);
+    border-top: none;
+    padding: 1.25rem 1.5rem;
+    color: var(--purple);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+}
+.gallery-slide-title{ color: var(--purple) !important; font-weight: 700; margin-bottom: 0.4rem; }
+.gallery-slide-text{ color: var(--purple-dark); margin-bottom: 0; line-height: 1.55; }
+
+/* ============================================================
+   CAROUSEL CONTROLS - POSITIONED OUTSIDE THE CAROUSEL
+   ============================================================ */
+
+.gallery-carousel .carousel-control-prev,
+.gallery-carousel .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
+    opacity: 1;
+    z-index: 10;
+}
+
+/* Position prev button to the LEFT of the carousel */
+.gallery-carousel .carousel-control-prev {
+    left: -4rem;
+}
+
+/* Position next button to the RIGHT of the carousel */
+.gallery-carousel .carousel-control-next {
+    right: -4rem;
+}
+
+.gallery-control-icon{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    color: var(--purple);
+    font-size: 1.4rem;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.gallery-carousel .carousel-control-prev:hover .gallery-control-icon,
+.gallery-carousel .carousel-control-next:hover .gallery-control-icon{
+    background: #fff;
+    color: var(--purple-dark);
+    transform: scale(1.05);
+}
+.gallery-carousel .carousel-control-prev:active .gallery-control-icon,
+.gallery-carousel .carousel-control-next:active .gallery-control-icon{
+    transform: scale(0.95);
+}
+
+/* Indicators sit below the slide */
+.gallery-carousel .carousel-indicators{
+    position: static;
+    margin: 1rem 0 0;
+}
+.gallery-carousel .carousel-indicators [data-bs-target]{
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.45);
+    border: none;
+    opacity: 1;
+}
+.gallery-carousel .carousel-indicators .active{
+    background-color: var(--yellow);
+}
+
+/* ============================================================
+   RESPONSIVE: Adjust button positioning for smaller screens
+   ============================================================ */
+
+@media (max-width: 992px) {
+    .gallery-carousel .carousel-control-prev {
+        left: -3.2rem;
+    }
+    .gallery-carousel .carousel-control-next {
+        right: -3.2rem;
+    }
+    .gallery-control-icon {
+        width: 2.6rem;
+        height: 2.6rem;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-section {
+        padding: 2rem 0.75rem 2.5rem;
+    }
+    .gallery-carousel .carousel-control-prev {
+        left: -1.8rem;
+    }
+    .gallery-carousel .carousel-control-next {
+        right: -1.8rem;
+    }
+    .gallery-control-icon {
+        width: 2.2rem;
+        height: 2.2rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-carousel .carousel-control-prev {
+        left: -1.2rem;
+    }
+    .gallery-carousel .carousel-control-next {
+        right: -1.2rem;
+    }
+    .gallery-control-icon {
+        width: 1.8rem;
+        height: 1.8rem;
+        font-size: 0.85rem;
+    }
 }
