@@ -174,12 +174,13 @@ footer{ background:transparent; color:var(--muted); }
 
 
 .skill-summary{ background: rgba(255,255,255,0.92); border:none; }
-.skill-card{ background: var(--purple); border:1px solid var(--purple); border-radius:0; box-shadow:0 12px 28px rgba(0,0,0,0.06); color:#fff; }
+.skill-card{ background: var(--purple); border:1px solid var(--purple); border-radius:0; box-shadow:0 12px 28px rgba(0,0,0,0.06); color:#fff; transition: transform .18s ease, box-shadow .18s ease; }
+.skill-card:hover{ transform: translateY(-6px); box-shadow: 0 16px 32px rgba(0,0,0,0.16); }
 .skill-summary-item{ display:flex; align-items:center; gap:0.75rem; padding:0.65rem 0; border-bottom:1px solid rgba(112,41,99,0.08); }
 .skill-summary-item:last-child{ border-bottom:none; }
 .skill-summary-icon{ font-size:1.1rem; color:var(--purple); min-width:1.5rem; }
 .skill-pill-row{ display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:1rem; }
-.skill-pill{ display:inline-flex; align-items:center; justify-content:center; padding:0.35rem 0.7rem; border-radius:999px; background:rgba(112,41,99,0.08); color:var(--purple); font-size:0.82rem; font-weight:600; }
+.skill-pill{ display:inline-flex; align-items:center; justify-content:center; padding:0.35rem 0.7rem; border-radius:999px; background: #fff; color:var(--purple); font-size:0.82rem; font-weight:600; }
 
 .project-badge{ display:inline-flex; align-items:center; justify-content:center; padding:0.35rem 0.75rem; border-radius:999px; background:var(--purple); color:#fff; font-size:0.82rem; font-weight:700; border:1px solid var(--purple); }
 .project-detail-card{ background:var(--purple); border:1px solid var(--purple); color:#fff; border-radius:0; }
@@ -441,5 +442,92 @@ footer{ background:transparent; color:var(--muted); }
         width: 1.8rem;
         height: 1.8rem;
         font-size: 0.85rem;
+    }
+}
+
+/* ============================================================
+   EXPERIENCE TIMELINE
+   Reuses the purple .skill-card look, arranged along a vertical
+   line with dots. Cards lift slightly on hover.
+   ============================================================ */
+
+.timeline{
+    position: relative;
+    padding-left: 2.25rem;
+}
+
+/* the vertical line */
+.timeline::before{
+    content: "";
+    position: absolute;
+    left: 0.5rem;
+    top: 0.35rem;
+    bottom: 0.35rem;
+    width: 2px;
+    background: rgba(112,41,99,0.2);
+}
+
+.timeline-item{
+    position: relative;
+    margin-bottom: 1.75rem;
+}
+.timeline-item:last-child{
+    margin-bottom: 0;
+}
+
+.timeline-dot{
+    position: absolute;
+    left: calc(-2.25rem + 0.5rem - 5px);
+    top: 0.5rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--purple-dark);
+    transition: border-width .18s ease, transform .18s ease;
+    z-index: 1;
+}
+
+.timeline-item:hover .timeline-dot{
+    border-width: 4px;
+    transform: translate(-1px, -1px);
+}
+
+.timeline-card{
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.timeline-date{
+    color: var(--yellow);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-org{
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+    font-size: 0.92rem;
+}
+
+.timeline-location{
+    color: rgba(255,255,255,0.7);
+    font-size: 0.82rem;
+}
+.timeline-location .bi{
+    margin-right: 0.25rem;
+}
+
+@media (min-width: 768px){
+    .timeline{
+        padding-left: 2.75rem;
+    }
+    .timeline::before{
+        left: 0.75rem;
+    }
+    .timeline-dot{
+        left: calc(-2.75rem + 0.75rem - 5px);
     }
 }
